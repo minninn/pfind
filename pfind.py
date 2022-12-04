@@ -32,7 +32,7 @@ def options( option ):
         return 0
 
     if option == "-v" or option == "--version":
-        print( "Pfind Version: 1.0.0" )
+        print( "Version: 1.0.0" )
         return 0
     
     if option == "-c" or option == "--content":
