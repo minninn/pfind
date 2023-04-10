@@ -16,3 +16,7 @@ if [ "$USER_SHELL" == "bash" ]; then
     echo `echo alias pfind="'python3 $DIR_PATH/pfind.py'" > ~/.bashrc`
     . ~/.bashrc
 fi
+
+
+PYTHON_PATH=`which python3`
+sed -i "s|python_path|$PYTHON_PATH|" $DIR_PATH/pfind.py
