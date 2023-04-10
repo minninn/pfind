@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# -------------------------
+# Version: 1.1.1
+# Last Modify: 2023.04.10.
+# Made By: minninn
+# -------------------------
+
 python3 -m pip install tqdm
 
 USER_SHELL=`echo $SHELL | cut -c 6-`
