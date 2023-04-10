@@ -71,7 +71,7 @@ def options( option ):
         sys.exit()
 
 
-    print( "Not Defined This Options: Check Help Messages use -h or --help" )
+    print( "This option is not defined. Please check the help messages using -h or --help." )
 
 
 path       = os.popen( 'pwd' ).read().rstrip( '\n' )
