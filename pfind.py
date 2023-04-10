@@ -1,9 +1,9 @@
-#!/opt/homebrew/bin/python3
+#!/usr/bin/python3
 
 # --------------------------------
-# Version: 1.0.0
-# OS: macOS Ventura 13.0.1
-# Last Modify: 2022.12.04.
+# Version: 1.1.1
+# OS:Rocky Linux 8.7 
+# Last Modify: 2023.04.10.
 # Made by: minninn, guaca123
 # https://github.com/minninn/pfind
 # --------------------------------
@@ -11,6 +11,9 @@
 
 import os
 import sys
+from tqdm import tqdm
+
+exclude_path = [ 'sys', 'proc', 'dev', 'run' ]
 
 help = """
 Pfind Help
@@ -32,20 +35,25 @@ def options( option ):
         return 0
 
     if option == "-v" or option == "--version":
-        print( "Version: 1.0.0" )
+        print( "Version: 1.1.1" )
         return 0
     
     if option == "-c" or option == "--content":
         try:
-            string  = sys.argv[2]
-            cnt     = 0
+            string      = sys.argv[2]
+            cnt         = 0
+            match_files = ''
 
-            for childFile in childFiles:
-                if os.system( "cat {0} | grep -i '{1}' 1>/dev/null".format( childFile, string ) ) == 0:
+            print( "Search Files..." )
+
+            for childFile in tqdm( childFiles ):
+                childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
+                if os.system( "cat {0} 2>/dev/null | grep -i '{1}' 1>/dev/null 2>/dev/null".format( childFile, string ) ) == 0:
                     cnt += 1
-                    print( "match: {0}".format( childFile ) )
+                    match_files += "\nmatch: {0}".format( childFile )
 
-            print( "Files: {0}/{1}".format( cnt, len( childFiles ) ) )
+            print( match_files )
+            print( "\nFiles: {0}/{1}".format( cnt, len( childFiles ) ) )
             return 0
 
         except:
@@ -59,14 +67,18 @@ path       = os.popen( 'pwd' ).read().rstrip( '\n' )
 childFiles = []
 
 for child_path, dirs, files in os.walk( path ):
-    for file in files:
-        childFiles.append( child_path + '/' + file )
+    if any( exclude in child_path.split( '/' ) for exclude in exclude_path ):
+        continue
+    else:
+        for file in files:
+            childFiles.append( child_path + '/' + file )
+
 
 if len( sys.argv ) == 1:
     for childFile in childFiles:
         print( childFile )
 
-    print( "Files: {0}".format( len( childFiles ) ) )
+    print( "\nFiles: {0}".format( len( childFiles ) ) )
 
 else:
     options( sys.argv[1] )
