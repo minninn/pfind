@@ -1,7 +1,7 @@
 #!python_path
 
 # --------------------------------
-# Version: 1.1.2
+# Version: 1.1.3
 # OS:Rocky Linux 8.7 
 # Last Modify: 2023.04.10.
 # Made by: minninn, guaca123
@@ -39,9 +39,9 @@ def run_command( command ):
     except KeyboardInterrupt:
         print( "\n\nStop Search by KeyboardInterrupt" )
         sys.exit()
-        
 
-    return stdout, stderr
+    return stdout
+
 
 def options( option ):
     if option == "-h" or option == "--help":
@@ -49,7 +49,7 @@ def options( option ):
         sys.exit()
 
     if option == "-v" or option == "--version":
-        print( "Version: 1.1.2" )
+        print( "Version: 1.1.3" )
         sys.exit()
     
     if option == "-c" or option == "--content":
@@ -62,7 +62,7 @@ def options( option ):
         for childFile in tqdm( childFiles ):
             childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
                 
-            if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 1>/dev/null 2>/dev/null".format( childFile, string ) ) == 0:
+            if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ).decode() != '':
                 cnt += 1
                 match_files += "\nmatch: {0}".format( childFile )
                 
