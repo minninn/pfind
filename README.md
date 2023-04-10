@@ -1,9 +1,16 @@
 # pfind
 
-# —————————————————————————————————
-# Version: 1.0.0
-# OS: macOS Ventura 13.0.1
-# Last Modify: 2022.12.04.
+# --------------------------------
+# Version: 1.1.1
+# OS:Rocky Linux 8.7
+# Last Modify: 2023.04.10.
 # Made by: minninn, guaca123
 # https://github.com/minninn/pfind
-# —————————————————————————————————
+# --------------------------------
+
+# 업데이트 내용
+#
+# 괄호 '(', ')' 문자 Escape
+# 검색 제외 디렉토리 지정( sys, proc, dev, run )
+# tqdm 라이브러리로 검색 진행률 표시
+# 버그 수정
