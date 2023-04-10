@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!python_path
 
 # --------------------------------
 # Version: 1.1.1
