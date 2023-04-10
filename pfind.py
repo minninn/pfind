@@ -40,7 +40,11 @@ def run_command( command ):
         print( "\n\nStop Search by KeyboardInterrupt" )
         sys.exit()
 
-    return stdout
+    try:
+        return stdout.decode()
+    
+    except:
+        return stdout.decode( 'ISO-8859-1' )
 
 
 def options( option ):
@@ -62,7 +66,7 @@ def options( option ):
         for childFile in tqdm( childFiles ):
             childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
                 
-            if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ).decode() != '':
+            if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ) != '':
                 cnt += 1
                 match_files += "\nmatch: {0}".format( childFile )
                 
