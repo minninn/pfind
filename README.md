@@ -1,7 +1,7 @@
 # pfind
 
 # --------------------------------
-# Version: 1.2.0
+# Version: 1.1.4
 # OS: Rocky Linux 8.7
 # Last Modify: 2023.04.13.
 # Made by: minninn, guaca123
