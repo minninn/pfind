@@ -1,7 +1,7 @@
 #!python_path
 
 # --------------------------------
-# Version: 1.2.0
+# Version: 1.1.4
 # OS:Rocky Linux 8.7 
 # Last Modify: 2023.04.13.
 # Made by: minninn, guaca123
@@ -53,7 +53,7 @@ def options():
         sys.exit()
 
     elif "-v" in sys.argv or "--version" in sys.argv:
-        print( "Version: 1.2.0" )
+        print( "Version: 1.1.4" )
         sys.exit()
     
 
