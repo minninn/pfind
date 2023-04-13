@@ -1,9 +1,9 @@
 #!python_path
 
 # --------------------------------
-# Version: 1.1.3
+# Version: 1.2.0
 # OS:Rocky Linux 8.7 
-# Last Modify: 2023.04.10.
+# Last Modify: 2023.04.13.
 # Made by: minninn, guaca123
 # https://github.com/minninn/pfind
 # --------------------------------
@@ -30,6 +30,7 @@ options
                    pfind -c "content"
 """
 
+
 def run_command( command ):
     proc = subprocess.Popen( command, shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE )
 
@@ -42,58 +43,80 @@ def run_command( command ):
 
     try:
         return stdout.decode()
-    
+
     except:
         return stdout.decode( 'ISO-8859-1' )
 
-
-def options( option ):
-    if option == "-h" or option == "--help":
+def options():
+    if "-h" in sys.argv or "--help" in sys.argv:
         print( help )
         sys.exit()
 
-    if option == "-v" or option == "--version":
-        print( "Version: 1.1.3" )
+    elif "-v" in sys.argv or "--version" in sys.argv:
+        print( "Version: 1.2.0" )
         sys.exit()
     
-    if option == "-c" or option == "--content":
-        string      = sys.argv[2]
-        cnt         = 0
-        match_files = ''
 
-        print( "Search Files..." )
+    elif "-c" in sys.argv:
+        string = sys.argv[ sys.argv.index( "-c" ) + 1 ]
+        content_option( string, select_files() )
+        sys.exit()
+    
+    elif "--content" in sys.argv:
+        string = sys.argv[ sys.argv.index( "--content" ) + 1 ]
+        content_option( string, select_files() )
+        sys.exit()
 
-        for childFile in tqdm( childFiles ):
-            childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
-                
-            if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ) != '':
-                cnt += 1
-                match_files += "\nmatch: {0}".format( childFile )
-                
-        print( match_files )
-        print( "\nFiles: {0}/{1}".format( cnt, len( childFiles ) ) )
+    else:
+        print( "Not Defined This Options: Check Help Messages use -h or --help" )
         sys.exit()
 
 
-    print( "This option is not defined. Please check the help messages using -h or --help." )
+def content_option( string, childFiles ):
+    cnt         = 0
+    match_files = ''
+
+    print( "Search Files..." )
+
+    for childFile in tqdm( childFiles ):
+        childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
+                
+        if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ) != '':
+            cnt += 1
+            match_files += "\nmatch: {0}".format( childFile )
+                
+    print( match_files )
+    print( "\nFiles: {0}/{1}".format( cnt, len( childFiles ) ) )
 
 
-path       = os.popen( 'pwd' ).read().rstrip( '\n' )
-childFiles = []
 
-for child_path, dirs, files in os.walk( path ):
-    if any( exclude in child_path.split( '/' ) for exclude in exclude_path ):
-        continue
+
+def select_files():
+    childFiles = []
+    path       = os.popen( 'pwd' ).read().rstrip( '\n' )
+
+    for child_path, dirs, files in os.walk( path ):
+        if any( exclude in child_path.split( '/' ) for exclude in exclude_path ):
+            continue
+        else:
+            for file in files:
+                childFiles.append( child_path + '/' + file )
+    
+    return childFiles
+
+
+def run_process():
+    if len( sys.argv ) == 1:
+        childFiles = select_files()
+
+        for childFile in childFiles:
+            print( childFile )
+
+        print( "\nFiles: {0}".format( len( childFiles ) ) )
+
     else:
-        for file in files:
-            childFiles.append( child_path + '/' + file )
+        options()
 
 
-if len( sys.argv ) == 1:
-    for childFile in childFiles:
-        print( childFile )
-
-    print( "\nFiles: {0}".format( len( childFiles ) ) )
-
-else:
-    options( sys.argv[1] )
+if __name__ == '__main__':
+    run_process()
