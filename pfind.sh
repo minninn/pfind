@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # -------------------------
-# Version: 1.1.3
-# Last Modify: 2023.04.10.
+# Version: 1.2.0
+# Last Modify: 2023.04.13.
 # Made By: minninn
 # -------------------------
 
