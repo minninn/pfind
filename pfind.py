@@ -1,9 +1,9 @@
 #!python_path
 
 # --------------------------------
-# Version: 1.1.4
+# Version: 1.2.0
 # OS:Rocky Linux 8.7 
-# Last Modify: 2023.04.13.
+# Last Modify: 2023.04.10.
 # Made by: minninn, guaca123
 # https://github.com/minninn/pfind
 # --------------------------------
@@ -26,6 +26,8 @@ usage: pfind [options] [content]
 options
     -v, --version: show version
     -h, --help: show this message
+    -x, --exclude: Exclude Directories in search
+                   pfind -x "directory"
     -c, --content: find files that include this content
                    pfind -c "content"
 """
@@ -53,9 +55,9 @@ def options():
         sys.exit()
 
     elif "-v" in sys.argv or "--version" in sys.argv:
-        print( "Version: 1.1.4" )
-        sys.exit()
-    
+        print( "Version: 1.2.0" )
+        sys.exit()    
+
 
     elif "-c" in sys.argv:
         string = sys.argv[ sys.argv.index( "-c" ) + 1 ]
@@ -106,7 +108,7 @@ def select_files():
 
 
 def run_process():
-    if len( sys.argv ) == 1:
+    if len( [ item for item in [ '-c', '--content', '-h', '--help', '-v', '--version' ] if item in sys.argv ] ) == 0:
         childFiles = select_files()
 
         for childFile in childFiles:
@@ -119,4 +121,13 @@ def run_process():
 
 
 if __name__ == '__main__':
+    if "-x" in sys.argv:
+        path = sys.argv[ sys.argv.index( "-x" ) + 1 ]
+        exclude_path.append( path.strip( "/" ) )
+
+    if "--exclude" in sys.argv:
+        path = sys.argv[ sys.argv.index( "--exclude" ) + 1 ]
+        exclude_path.append( path.strip( "/" ) )        
+
+        
     run_process()
