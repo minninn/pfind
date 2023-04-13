@@ -1,7 +1,7 @@
 # pfind
 
 # --------------------------------
-# Version: 1.1.4
+# Version: 1.2.0
 # OS: Rocky Linux 8.7
 # Last Modify: 2023.04.13.
 # Made by: minninn, guaca123
@@ -10,5 +10,4 @@
 
 # 업데이트 내용
 #
-# option 지정 시 프로세스 개선
-# 코드수정
+# 검색에서 제외할 디렉토리 지정 옵션(exclude) 추가
