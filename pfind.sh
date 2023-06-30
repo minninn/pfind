@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # -------------------------
-# Version: 1.2.0
-# Last Modify: 2023.04.13.
+# Version: 1.2.1
+# Last Modify: 2023.06.30.
 # Made By: minninn
 # -------------------------
 
@@ -14,12 +14,12 @@ echo $USER_SHELL
 
 if [ "$USER_SHELL" == "zsh" ];then
     echo `mkdir ~/.zprofile`
-    echo `echo alias pfind="'python3 $DIR_PATH/pfind.py'" > ~/.zprofile`
+    echo `echo alias pfind="'python3 $DIR_PATH/pfind.py'" >> ~/.zprofile`
     . ~/.zprofile
 fi
 
 if [ "$USER_SHELL" == "bash" ]; then
-    echo `echo alias pfind="'python3 $DIR_PATH/pfind.py'" > ~/.bashrc`
+    echo `echo alias pfind="'python3 $DIR_PATH/pfind.py'" >> ~/.bashrc`
     . ~/.bashrc
 fi
 
