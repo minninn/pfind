@@ -1,9 +1,9 @@
 #!python_path
 
 # --------------------------------
-# Version: 1.2.0
+# Version: 1.2.1
 # OS:Rocky Linux 8.7 
-# Last Modify: 2023.04.10.
+# Last Modify: 2023.06.30.
 # Made by: minninn, guaca123
 # https://github.com/minninn/pfind
 # --------------------------------
@@ -85,10 +85,10 @@ def content_option( string, childFiles ):
                 
         if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ) != '':
             cnt += 1
-            match_files += "\nmatch: {0}".format( childFile )
+            match_files += "\n{0}".format( childFile )
                 
     print( match_files )
-    print( "\nFiles: {0}/{1}".format( cnt, len( childFiles ) ) )
+    print( "\nMatch Files: {0}/{1}".format( cnt, len( childFiles ) ) )
 
 
 
