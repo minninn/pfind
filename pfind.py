@@ -15,6 +15,7 @@ import subprocess
 from tqdm import tqdm
 
 exclude_path = [ 'sys', 'proc', 'dev', 'run' ]
+runMode = True
 
 help = """
 pfind help
@@ -32,6 +33,7 @@ options
                    pfind -c "content"
     -t, --target: Enter the path to search
                    pfind -t "directory"
+    -q, --quiet: Quiet Mode
 """
 
 
@@ -80,17 +82,27 @@ def content_option( string, childFiles ):
     cnt         = 0
     match_files = ''
 
-    print( "Search Files..." )
+    if runMode:
+        print( "Search Files..." )
+        for childFile in tqdm( childFiles ):
+            childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
+                
+            if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ) != '':
+                cnt += 1
+                match_files += "\n{0}".format( childFile )
+                
+        print( match_files )
+        print( "\nMatch Files: {0}/{1}".format( cnt, len( childFiles ) ) )
 
-    for childFile in tqdm( childFiles ):
-        childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
-                
-        if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ) != '':
-            cnt += 1
-            match_files += "\n{0}".format( childFile )
-                
-    print( match_files )
-    print( "\nMatch Files: {0}/{1}".format( cnt, len( childFiles ) ) )
+    else:
+        for childFile in childFiles:
+            childFile = childFile.replace( "(", r"\(" ).replace( ")", r"\)" )
+
+            if run_command( "cat {0} 2>/dev/null | grep -i '{1}' 2>/dev/null".format( childFile, string ) ) != '':
+                cnt += 1
+                match_files += "\n{0}".format( childFile )
+
+        print( match_files )
 
 
 
@@ -128,7 +140,8 @@ def run_process( target_path ):
         for childFile in childFiles:
             print( childFile )
 
-        print( "\nFiles: {0}".format( len( childFiles ) ) )
+        if runMode:
+            print( "\nFiles: {0}".format( len( childFiles ) ) )
 
     else:
         options()
@@ -150,6 +163,12 @@ if __name__ == '__main__':
     
     if "--target" in sys.argv:
         target_path = sys.argv[ sys.argv.index( "--target" ) + 1 ]
+
+    if "-q" in sys.argv:
+        runMode = False
+
+    if "--quiet" in sys.argv:
+        runMode = False
 
         
     run_process( target_path )
