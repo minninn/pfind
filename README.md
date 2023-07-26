@@ -11,6 +11,7 @@
 # 업데이트 내용
 #
 # 검색 대상 디렉토리 설정
+# Quiet Mode
 
 
 # How to use
@@ -36,3 +37,4 @@ options
                    pfind -c "content"
     -t, --target: Enter the path to search
                    pfind -t "directory"
+    -q, --quiet: Quiet Mode
