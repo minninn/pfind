@@ -1,9 +1,9 @@
 #!python_path
 
 # --------------------------------
-# Version: 1.2.1
+# Version: 1.3.0
 # OS:Rocky Linux 8.7 
-# Last Modify: 2023.06.30.
+# Last Modify: 2023.07.26.
 # Made by: minninn, guaca123
 # https://github.com/minninn/pfind
 # --------------------------------
@@ -30,6 +30,8 @@ options
                    pfind -x "directory"
     -c, --content: find files that include this content
                    pfind -c "content"
+    -t, --target: Enter the path to search
+                   pfind -t "directory"
 """
 
 
@@ -55,18 +57,18 @@ def options():
         sys.exit()
 
     elif "-v" in sys.argv or "--version" in sys.argv:
-        print( "Version: 1.2.0" )
+        print( "Version: 1.3.0" )
         sys.exit()    
 
 
     elif "-c" in sys.argv:
         string = sys.argv[ sys.argv.index( "-c" ) + 1 ]
-        content_option( string, select_files() )
+        content_option( string, select_files( target_path ) )
         sys.exit()
     
     elif "--content" in sys.argv:
         string = sys.argv[ sys.argv.index( "--content" ) + 1 ]
-        content_option( string, select_files() )
+        content_option( string, select_files( target_path ) )
         sys.exit()
 
     else:
@@ -93,9 +95,21 @@ def content_option( string, childFiles ):
 
 
 
-def select_files():
+def select_files( target_path ):
+    if target_path:
+        if os.path.isdir( target_path ):
+            path   = target_path
+        else:
+            try:
+                raise ValueError
+            except:
+                print( f"{target_path} is not Directory" )
+                sys.exit()
+    else:
+        path   = os.popen( 'pwd' ).read().rstrip( '\n' )
+
     childFiles = []
-    path       = os.popen( 'pwd' ).read().rstrip( '\n' )
+
 
     for child_path, dirs, files in os.walk( path ):
         if any( exclude in child_path.split( '/' ) for exclude in exclude_path ):
@@ -107,9 +121,9 @@ def select_files():
     return childFiles
 
 
-def run_process():
+def run_process( target_path ):
     if len( [ item for item in [ '-c', '--content', '-h', '--help', '-v', '--version' ] if item in sys.argv ] ) == 0:
-        childFiles = select_files()
+        childFiles = select_files( target_path )
 
         for childFile in childFiles:
             print( childFile )
@@ -121,6 +135,8 @@ def run_process():
 
 
 if __name__ == '__main__':
+    target_path = ''
+
     if "-x" in sys.argv:
         path = sys.argv[ sys.argv.index( "-x" ) + 1 ]
         exclude_path.append( path.strip( "/" ) )
@@ -129,5 +145,11 @@ if __name__ == '__main__':
         path = sys.argv[ sys.argv.index( "--exclude" ) + 1 ]
         exclude_path.append( path.strip( "/" ) )        
 
+    if "-t" in sys.argv:
+        target_path = sys.argv[ sys.argv.index( "-t" ) + 1 ]
+    
+    if "--target" in sys.argv:
+        target_path = sys.argv[ sys.argv.index( "--target" ) + 1 ]
+
         
-    run_process()
+    run_process( target_path )
