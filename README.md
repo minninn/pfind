@@ -21,7 +21,9 @@ exclude option 여러 디렉토리 지정 가능(공백으로 구분)
 > How to use
 
 git clone https://github.com/minninn/pfind.git
+
 cd pfind
+
 sh pfind.sh
 
 
