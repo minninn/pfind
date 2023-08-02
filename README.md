@@ -1,12 +1,12 @@
 > pfind
 
---------------------------------
-Version: 1.3.1
-OS: Rocky Linux 8.7
-Last Modify: 2023.07.26.
-Made by: minninn, guaca123
-https://github.com/minninn/pfind
---------------------------------
+#--------------------------------
+#Version: 1.3.1
+#OS: Rocky Linux 8.7
+#Last Modify: 2023.07.26.
+#Made by: minninn, guaca123
+#https://github.com/minninn/pfind
+#--------------------------------
 
 
 
