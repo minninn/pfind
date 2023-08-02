@@ -1,9 +1,9 @@
 #!python_path
 
 # --------------------------------
-# Version: 1.3.0
+# Version: 1.3.1
 # OS:Rocky Linux 8.7 
-# Last Modify: 2023.07.26.
+# Last Modify: 2023.08.02.
 # Made by: minninn, guaca123
 # https://github.com/minninn/pfind
 # --------------------------------
@@ -59,7 +59,7 @@ def options():
         sys.exit()
 
     elif "-v" in sys.argv or "--version" in sys.argv:
-        print( "Version: 1.3.0" )
+        print( "Version: 1.3.1" )
         sys.exit()    
 
 
@@ -103,8 +103,6 @@ def content_option( string, childFiles ):
                 match_files += "\n{0}".format( childFile )
 
         print( match_files )
-
-
 
 
 def select_files( target_path ):
@@ -151,12 +149,14 @@ if __name__ == '__main__':
     target_path = ''
 
     if "-x" in sys.argv:
-        path = sys.argv[ sys.argv.index( "-x" ) + 1 ]
-        exclude_path.append( path.strip( "/" ) )
+        paths = sys.argv[ sys.argv.index( "-x" ) + 1 ].split()
+        for path in paths:
+            exclude_path.append( path.strip( "/" ) )
 
     if "--exclude" in sys.argv:
-        path = sys.argv[ sys.argv.index( "--exclude" ) + 1 ]
-        exclude_path.append( path.strip( "/" ) )        
+        paths = sys.argv[ sys.argv.index( "--exclude" ) + 1 ].split()
+        for path in paths:
+            exclude_path.append( path.strip( "/" ) )        
 
     if "-t" in sys.argv:
         target_path = sys.argv[ sys.argv.index( "-t" ) + 1 ]
@@ -170,5 +170,4 @@ if __name__ == '__main__':
     if "--quiet" in sys.argv:
         runMode = False
 
-        
     run_process( target_path )
