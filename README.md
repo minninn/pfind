@@ -1,7 +1,7 @@
 # pfind
 
 # --------------------------------
-# Version: 1.3.0
+# Version: 1.3.1
 # OS: Rocky Linux 8.7
 # Last Modify: 2023.07.26.
 # Made by: minninn, guaca123
@@ -12,6 +12,7 @@
 #
 # 검색 대상 디렉토리 설정
 # Quiet Mode
+# exclude option 여러 디렉토리 지정 가능(공백으로 구분)
 
 
 # How to use
@@ -20,7 +21,7 @@
 # cd pfind
 # sh pfind.sh
 # pfind -v (or --version)
-> Version: 1.3.0
+> Version: 1.3.1
 # pfind -h (or --help)
 > pfind help
 
